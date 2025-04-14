@@ -9,3 +9,39 @@
   --color-secondary: #3a7d44;
   --color-accent: #df6d14;
 }
+
+body {
+  @apply bg-level-0;
+}
+
+.embla {
+  width: 100px;
+  margin: auto;
+  --slide-height: 5rem;
+  --slide-spacing: 1rem;
+  --slide-size: 5rem;
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+.embla__slide {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+}
+.embla__slide__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}

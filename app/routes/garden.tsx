@@ -1,10 +1,30 @@
-import { Canvas, useThree, useFrame } from "@react-three/fiber";
-import { OrbitControls, Stage, useCursor, useGLTF } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useCursor } from "@react-three/drei";
+import type { EmblaOptionsType } from "embla-carousel";
 import { useState } from "react";
 import CameraFeed from "~/components/CameraFeed";
 import PlantModel from "~/components/PlantModel";
-
 import * as THREE from "three";
+import PlantCarousel from "~/components/PlantCarousel";
+
+const OPTIONS: EmblaOptionsType = {
+  align: "start",
+  dragFree: true,
+  loop: true,
+};
+
+const plantList = [
+  {
+    name: "Heuchera",
+    url: "/plants/heuchera.glb",
+    thumb: "/plants/heuchera.png",
+  },
+  {
+    name: "Hydrangea",
+    url: "/plants/hydrangea.glb",
+    thumb: "/plants/hydrangea.png",
+  },
+];
 
 interface GroundProps {
   onClick: (point: THREE.Vector3) => void;
@@ -37,20 +57,28 @@ export default function Garden() {
     0, -1, 0,
   ]);
 
+  const [selectedModel, setSelectedModel] = useState(plantList[0].url);
+
   const handleClick = (point: THREE.Vector3) => {
     setPlantPos([point.x, -1, point.z]);
   };
 
   return (
-    <>
+    <div className="relative h-screen w-screen">
       <CameraFeed />
-      <Canvas style={{ height: "100vh" }}>
+      <Canvas style={{ height: "100%" }}>
         <ambientLight intensity={3} />
         <OrbitControls />
 
-        <PlantModel position={plantPos} />
+        <PlantModel position={plantPos} url={selectedModel} />
         <Ground onClick={handleClick} />
       </Canvas>
-    </>
+      <PlantCarousel
+        plants={plantList}
+        selected={selectedModel}
+        onSelect={setSelectedModel}
+        options={OPTIONS}
+      />
+    </div>
   );
 }
