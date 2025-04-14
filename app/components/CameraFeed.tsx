@@ -1,42 +1,58 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { SwitchCamera } from "lucide-react";
 
 export default function CameraFeed() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [facingMode, setFacingMode] = useState<"user" | "enviroment">(
+    "enviroment"
+  );
+
+  const startCamera = async (mode: "user" | "enviroment") => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: mode },
+      });
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (err) {
+      console.log(`"${mode}" mode not found`, err);
+    }
+  };
 
   useEffect(() => {
-    const startCamera = async () => {
-      // try user rear camera
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: { exact: "enviroment" },
-          },
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (err) {
-        console.warn("Rear camera not found", err);
+    startCamera(facingMode);
 
-        // fallback to default camera
-        const fallbackStream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = fallbackStream;
-        }
+    return () => {
+      if (videoRef.current?.srcObject) {
+        const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+        tracks.forEach((track) => track.stop());
       }
     };
-    startCamera();
-  }, []);
+  }, [facingMode]);
+
+  const toggleCamera = () => {
+    setFacingMode((prev) => (prev === "user" ? "enviroment" : "user"));
+  };
 
   return (
-    <video
-      ref={videoRef}
-      autoPlay
-      muted
-      playsInline
-      className="fixed inset-0 w-full h-full object-cover -z-10"
-    />
+    <>
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover -z-10"
+      />
+      <button
+        onClick={toggleCamera}
+        className="absolute w-max h-max top-4 right-4"
+        type="button"
+      >
+        <SwitchCamera />
+      </button>
+    </>
   );
 }
