@@ -4,11 +4,30 @@ export default function CameraFeed() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
+    const startCamera = async () => {
+      // try user rear camera
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { exact: "enviroment" },
+          },
+        });
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (err) {
+        console.warn("Rear camera not found", err);
+
+        // fallback to default camera
+        const fallbackStream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        if (videoRef.current) {
+          videoRef.current.srcObject = fallbackStream;
+        }
       }
-    });
+    };
+    startCamera();
   }, []);
 
   return (
