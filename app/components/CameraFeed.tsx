@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import { SwitchCamera } from "lucide-react";
+import { SwitchCamera, ArrowBigLeft, ArrowLeft } from "lucide-react";
+import { Link } from "react-router";
 
 export default function CameraFeed() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -46,13 +47,18 @@ export default function CameraFeed() {
         playsInline
         className="fixed inset-0 w-full h-full object-cover -z-10"
       />
-      <button
-        onClick={toggleCamera}
-        className="absolute w-max h-max top-4 right-4"
-        type="button"
-      >
-        <SwitchCamera />
-      </button>
+      <div className="flex items-center justify-between fixed top-4 left-4 w-[calc(100%-32px)] z-20">
+        <Link to={"/"} className="block bg-accent p-1 rounded-md text-level-0">
+          <ArrowLeft />
+        </Link>
+        <button
+          onClick={toggleCamera}
+          type="button"
+          className="block bg-accent p-1 rounded-md text-level-0 cursor-pointer"
+        >
+          <SwitchCamera />
+        </button>
+      </div>
     </>
   );
 }
