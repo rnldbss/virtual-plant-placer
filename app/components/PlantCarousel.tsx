@@ -34,7 +34,7 @@ const PlantCarousel: React.FC<PropType> = ({ plants, options, onSelect }) => {
                   <img
                     src={plant.thumb}
                     alt={plant.name}
-                    className="h-20 w-20 object-contain"
+                    className="h-full w-full object-cover"
                   />
                 )}
               </div>
