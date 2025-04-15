@@ -8,7 +8,7 @@ import * as THREE from "three";
 import PlantCarousel from "~/components/PlantCarousel";
 
 const OPTIONS: EmblaOptionsType = {
-  align: "start",
+  align: "center",
   dragFree: true,
   loop: true,
 };
@@ -23,6 +23,21 @@ const plantList = [
     name: "Hydrangea",
     url: "/plants/hydrangea.glb",
     thumb: "/plants/hydrangea.png",
+  },
+  {
+    name: "Tree",
+    url: "/plants/officeplant.glb",
+    thumb: "/plants/officeplant.png",
+  },
+  {
+    name: "Ivy",
+    url: "/plants/ivy.glb",
+    thumb: "/plants/ivy.png",
+  },
+  {
+    name: "Caladium",
+    url: "/plants/caladium.glb",
+    thumb: "/plants/caladium.png",
   },
 ];
 
