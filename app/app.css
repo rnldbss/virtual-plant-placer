@@ -18,7 +18,6 @@ body {
   width: 100px;
   margin: auto;
   --slide-height: 5rem;
-  --slide-spacing: 1rem;
   --slide-size: 5rem;
   position: fixed;
   bottom: 2rem;
@@ -29,13 +28,12 @@ body {
 .embla__container {
   display: flex;
   touch-action: pan-y pinch-zoom;
-  margin-left: calc(var(--slide-spacing) * -1);
+  gap: 0.5rem;
 }
 .embla__slide {
   transform: translate3d(0, 0, 0);
   flex: 0 0 var(--slide-size);
   min-width: 0;
-  padding-left: var(--slide-spacing);
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-md);
 }
